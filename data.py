@@ -4,6 +4,7 @@ import numpy as np
 from skimage import io
 from skimage.transform import resize
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.utils import shuffle
 
 
 class Processor:
@@ -20,6 +21,9 @@ class Processor:
         """
         X_train, y_train = self.iterate_dir(self.train_path)
         X_test, y_test = self.iterate_dir(self.test_path)
+
+        # Shuffle the training data
+        X_train, y_train = shuffle(X_train, y_train)
 
         return X_train, y_train, X_test, y_test
 
