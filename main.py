@@ -1,3 +1,4 @@
+import numpy as np
 from matplotlib import pyplot as plt
 from tensorflow import keras
 
@@ -6,32 +7,13 @@ from network import Network
 
 IMAGE_SIZE = (256, 256)
 
-p = Processor()
+p = Processor(train_path="toy_train", test_path="toy_test1")
+X_train, y_train, X_test, y_test = p.import_data()
+
 n = Network()
+model = n.generate_model()
 
-train, test = p.import_data()
+y_train_hot = p.one_hot_class(y_train)
 
-plt.figure(figsize=(10, 10))
-for images, labels in train.take(1):
-    for i in range(9):
-        ax = plt.subplot(3, 3, i + 1)
-        plt.imshow(images[i].numpy().astype("uint8"))
-        plt.title(int(labels[i]))
-        plt.axis("off")
-    plt.show()
-
-model = n.make_model(input_shape=IMAGE_SIZE + (3,), num_classes=2)
-
-epochs = 50
-
-callbacks = [
-    keras.callbacks.ModelCheckpoint("save_at_{epoch}.h5"),
-]
-model.compile(
-    optimizer=keras.optimizers.Adam(1e-3),
-    loss="binary_crossentropy",
-    metrics=["accuracy"],
-)
-model.fit(
-    train, epochs=epochs, callbacks=callbacks, # validation_data=val_ds,
-)
+model.compile(optimizer="adam", loss="categorical_crossentropy")
+model.fit(X_train, y_train_hot, epochs=10)
