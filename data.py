@@ -42,8 +42,10 @@ class Processor:
                 labels.append(dir)
                 y.append(i)
             i += 1
+        X = np.array(X)
+        y = np.array(y)
         X = X / 255
-        return np.array(X), np.array(y)
+        return X, y
 
     def resize_image(self, image):
         """
@@ -59,9 +61,3 @@ class Processor:
         enc = OneHotEncoder(sparse=False)
         y = y.reshape(-1, 1)
         return enc.fit_transform(y)
-
-
-p = Processor(train_path="toy_train", test_path="toy_test1")
-X_train, y_train, X_test, y_test = p.import_data()
-
-print(p.one_hot_class(y_train))

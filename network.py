@@ -27,9 +27,3 @@ class Network:
         out_layer = Dense(self.class_num, activation="softmax")(x)
 
         return Model(inputs=in_layer, outputs=out_layer)
-
-
-n = Network()
-model = n.generate_model()
-
-print(model.summary())
