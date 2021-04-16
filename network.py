@@ -6,7 +6,7 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
 class Network:
 
-    def __init__(self, image_shape=(256, 256, 3), class_num=51):
+    def __init__(self, image_shape=(256, 256, 3), class_num=50):
         self.image_shape = image_shape
         self.class_num = class_num
 
@@ -23,7 +23,7 @@ class Network:
         x = Conv2D(128, kernel_size=4, activation="relu")(x)
         x = MaxPooling2D(pool_size=(2, 2))(x)
         x = Flatten()(x)
-        # x = Dense(50, activation="relu")(x)
+        x = Dense(32, activation="relu")(x)
         out_layer = Dense(self.class_num, activation="softmax")(x)
 
         return Model(inputs=in_layer, outputs=out_layer)
