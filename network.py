@@ -23,7 +23,7 @@ class Network:
         x = Conv2D(128, kernel_size=4, activation="relu")(x)
         x = MaxPooling2D(pool_size=(2, 2))(x)
         x = Flatten()(x)
-        x = Dense(32, activation="relu")(x)
+        # x = Dense(32, activation="relu")(x)
         out_layer = Dense(self.class_num, activation="softmax")(x)
 
         return Model(inputs=in_layer, outputs=out_layer)
